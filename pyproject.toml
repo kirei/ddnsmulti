@@ -1,0 +1,37 @@
+[tool.poetry]
+name = "ddnsmulti"
+version = "0.1.0"
+description = ""
+authors = ["Jakob Schlyter <jakob@kirei.se>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+PyYAML = "^6.0"
+voluptuous = "^0.13.1"
+dnspython = "^2.3.0"
+
+[tool.poetry.group.dev.dependencies]
+black = "^22.12.0"
+isort = "^5.11.4"
+pytest = "^7.2.1"
+pytest-black = "^0.3.12"
+pytest-isort = "^3.1.0"
+pylama = "^8.4.1"
+
+[tool.poetry.scripts]
+dnsupdater = "dnsupdater.cli:main"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.isort]
+profile = "black"
+
+[tool.pylama.linter.pycodestyle]
+max_line_length = 142
+ignore = "E731,W503"
+
+[tool.pylama.linter.mccabe]
+ignore = "C901"

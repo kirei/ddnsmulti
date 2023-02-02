@@ -1,0 +1,16 @@
+# DNS Update Configuration File
+
+database: dnsupdate.db
+queuedir: ./queue
+
+nameservers:
+  - address: 10.0.0.1
+    tsig:
+      name: test-20230201.
+      key: BA3V2qaseslfYlJ3+XGQwKgXPprlshGnJcFN9NxapNg=
+      alg: hmac-sha256
+  - address: 10.0.0.2
+    tsig:
+      name: test-20230201.
+      key: BA3V2qaseslfYlJ3+XGQwKgXPprlshGnJcFN9NxapNg=
+      alg: hmac-sha256
