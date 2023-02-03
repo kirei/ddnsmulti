@@ -8,7 +8,7 @@ In addition to the update requests, `ddnsmulti` will keep an JSON-based index  i
 ## Configuration
 
 
-# DNS Update Configuration File
+### Configuration File
 
 Example configuration file:
 
@@ -28,7 +28,7 @@ Example configuration file:
           alg: hmac-sha256
 
 
-## Updates
+### Updates
 
 Example updates file:
 
