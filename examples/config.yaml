@@ -1,7 +1,7 @@
 # DNS Update Configuration File
 
-database: dnsupdate.db
-queuedir: ./queue
+queuedir: queue
+index: index.json
 
 nameservers:
   - address: 10.0.0.1
