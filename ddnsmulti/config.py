@@ -24,8 +24,8 @@ TSIG_ALGORITHMS = {
 
 CONFIG_SCHEMA = vol.Schema(
     {
-        vol.Required("index", default="index.json"): str,
         vol.Required("queuedir"): vol.IsDir(),
+        vol.Required("index", default="index.json"): str,
         vol.Required("nameservers"): [
             vol.Schema(
                 {

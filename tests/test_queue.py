@@ -20,12 +20,28 @@ class TestQueue(unittest.TestCase):
             os.unlink(index_filename)
         except FileNotFoundError:
             pass
-        q = ChangeRequestQueue(directory=QUEUEDIR, index=index_filename)
-        q.load_index()
-        q.update_queue()
-        q.save_index()
-        q.load_index()
-        q.save_index()
+        queue = ChangeRequestQueue(directory=QUEUEDIR, index=index_filename)
+
+        queue.load_index()
+        queue.update_queue()
+        queue.save_index()
+
+        _ = [qe for qe in queue]
+
+        queue.load_index()
+
+        NAMESERVERS = ["10.0.0.1", "10.0.0.2"]
+        for qe in queue:
+            for n in NAMESERVERS:
+                qe.set_nameserver_incomplete(n)
+            self.assertFalse(qe.is_complete())
+            qe.set_nameserver_complete(NAMESERVERS[0])
+            self.assertFalse(qe.is_complete())
+            for n in NAMESERVERS:
+                qe.set_nameserver_complete(n)
+            self.assertTrue(qe.is_complete())
+
+        queue.save_index()
 
 
 if __name__ == "__main__":
