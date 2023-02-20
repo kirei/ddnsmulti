@@ -1,7 +1,7 @@
 import base64
 import ipaddress
 from dataclasses import dataclass
-from typing import List
+from typing import List, Optional
 
 import dns.name
 import dns.tsig
@@ -25,11 +25,12 @@ TSIG_ALGORITHMS = {
 CONFIG_SCHEMA = vol.Schema(
     {
         vol.Required("queuedir"): vol.IsDir(),
-        vol.Required("index", default="index.json"): str,
+        vol.Optional("index"): str,
         vol.Required("nameservers"): [
             vol.Schema(
                 {
                     vol.Required("address"): ipaddress.ip_address,
+                    vol.Optional("port", default=53): int,
                     vol.Optional("tsig"): vol.Schema(
                         {
                             vol.Required("name"): DOMAIN_NAME,
@@ -46,7 +47,7 @@ CONFIG_SCHEMA = vol.Schema(
 
 @dataclass(frozen=True)
 class UpdaterConfig:
-    index: str
+    index: Optional[str]
     queue_directory: str
     nameservers: List[dict]
 
@@ -54,7 +55,7 @@ class UpdaterConfig:
     def from_yaml(cls, yaml_str: str):
         config = validate_with_humanized_errors(yaml.safe_load(yaml_str), CONFIG_SCHEMA)
         return cls(
-            index=config["index"],
+            index=config.get("index"),
             queue_directory=config["queuedir"],
             nameservers=config["nameservers"],
         )
