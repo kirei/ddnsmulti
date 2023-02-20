@@ -70,7 +70,7 @@ class ChangeRequestQueueEntry:
 class ChangeRequestQueue:
     def __init__(self, queue_directory: str, index: Optional[str] = None) -> None:
         self.queue_directory = Path(queue_directory)
-        self.index_filename = index or self.queue_directory / "index.json"
+        self.index_filename = index
         self.queue = None
         self.files = set()
         self._current_index = None
@@ -96,12 +96,14 @@ class ChangeRequestQueue:
                 ]
                 self.files = set([qe.filename for qe in self.queue])
         except FileNotFoundError:
-            self.queue = None
+            self.queue = []
             self.files = set()
 
     def save_index(self):
         if self.queue is None:
-            raise ValueError("No index")
+            raise ValueError("No queue")
+        if self.index_filename is None:
+            raise ValueError("No index defined")
         with open(self.index_filename, "wt") as idx:
             json.dump(self.as_dict(), idx, indent=4)
 
@@ -121,7 +123,10 @@ class ChangeRequestQueue:
             self.queue = []
         for f in self.get_files():
             if f not in self.files:
-                logging.info("Adding %s to index", f)
+                if self.index_filename:
+                    logging.info("Adding %s to index", f)
+                else:
+                    logging.info("Reading %s", f)
                 self.queue.append(
                     ChangeRequestQueueEntry.from_file(self.queue_directory / f)
                 )
