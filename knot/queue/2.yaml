@@ -1,0 +1,12 @@
+zone: example.com
+change: b.example.com
+
+ttl: 86400
+
+from:
+  - "b.example.com. NS ns1.other.example.net."
+  - "b.example.com. NS ns2.other.example.net."
+
+to:
+  - "b.example.com. NS ns3.other.example.net."
+  - "b.example.com. NS ns4.other.example.net."

@@ -1,0 +1,23 @@
+$ORIGIN example.com.
+$TTL 3600
+
+@	SOA	dns1.example.com. hostmaster.example.com. (
+		0		; serial
+		6h		; refresh
+		1h		; retry
+		1w		; expire
+		1d )		; minimum
+
+	NS	dns1
+	NS	dns2
+
+	MX	0 .
+
+dns1	A	192.0.2.1
+	AAAA	2001:DB8::1
+
+dns2	A	192.0.2.2
+	AAAA	2001:DB8::2
+
+b	NS	ns1.other.example.net.
+b	NS	ns2.other.example.net.

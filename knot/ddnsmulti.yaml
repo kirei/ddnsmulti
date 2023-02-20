@@ -1,0 +1,12 @@
+# DNS Update Configuration File
+
+queuedir: queue
+#index: index.json
+
+nameservers:
+  - address: 127.0.0.1
+    port: 5300
+    tsig:
+      name: key1.
+      key: 4Tc0K1QkcMCs7cOW2LuSWnxQY0qysdvsZlSb4yTN9pA=
+      alg: hmac-sha256
