@@ -47,7 +47,7 @@ CONFIG_SCHEMA = vol.Schema(
 @dataclass(frozen=True)
 class UpdaterConfig:
     index: str
-    queuedir: str
+    queue_directory: str
     nameservers: List[dict]
 
     @classmethod
@@ -55,11 +55,11 @@ class UpdaterConfig:
         config = validate_with_humanized_errors(yaml.safe_load(yaml_str), CONFIG_SCHEMA)
         return cls(
             index=config["index"],
-            queuedir=config["queuedir"],
+            queue_directory=config["queuedir"],
             nameservers=config["nameservers"],
         )
 
     @classmethod
     def from_file(cls, filename: str):
         with open(filename) as input_file:
-            return cls.from_yaml(yaml.safe_load(input_file.read()))
+            return cls.from_yaml(input_file.read())

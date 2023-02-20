@@ -20,7 +20,7 @@ class TestQueue(unittest.TestCase):
             os.unlink(index_filename)
         except FileNotFoundError:
             pass
-        queue = ChangeRequestQueue(directory=QUEUEDIR, index=index_filename)
+        queue = ChangeRequestQueue(queue_directory=QUEUEDIR, index=index_filename)
 
         queue.load_index()
         queue.update_queue()

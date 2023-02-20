@@ -68,8 +68,8 @@ class ChangeRequestQueueEntry:
 
 
 class ChangeRequestQueue:
-    def __init__(self, directory: str, index: Optional[str] = None) -> None:
-        self.queue_directory = Path(directory)
+    def __init__(self, queue_directory: str, index: Optional[str] = None) -> None:
+        self.queue_directory = Path(queue_directory)
         self.index_filename = index or self.queue_directory / "index.json"
         self.queue = None
         self.files = set()
@@ -114,7 +114,7 @@ class ChangeRequestQueue:
         ]
 
     def as_dict(self) -> dict:
-        return {"queue": [qe.as_dict() for qe in self.queue]}
+        return {"queue": [qe.as_dict() for qe in self.queue or []]}
 
     def update_queue(self):
         if self.queue is None:

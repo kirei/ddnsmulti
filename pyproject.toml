@@ -20,7 +20,7 @@ pytest-isort = "^3.1.0"
 pylama = "^8.4.1"
 
 [tool.poetry.scripts]
-dnsupdater = "dnsupdater.cli:main"
+ddnsmulti = "ddnsmulti.cli:main"
 
 [build-system]
 requires = ["poetry-core"]
