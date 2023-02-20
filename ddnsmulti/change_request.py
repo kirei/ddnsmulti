@@ -21,6 +21,7 @@ RESOURCE_RECORDS_LIST = vol.All([str], RESOURCE_RECORDS)
 
 CR_SCHEMA = vol.Schema(
     {
+        vol.Required("zone"): DOMAIN_NAME,
         vol.Required("change"): DOMAIN_NAME,
         vol.Optional("ttl"): vol.All(int, vol.Range(min=0)),
         vol.Required("from"): RESOURCE_RECORDS_LIST,
@@ -51,12 +52,15 @@ class MissingGlueError(ValueError):
 
 @dataclass(frozen=True)
 class ChangeRequest:
+    zone: dns.name.Name
     change: dns.name.Name
     ttl: int
     from_rrsets: List[dns.rrset.RRset]
     to_rrsets: List[dns.rrset.RRset]
 
     def validate(self) -> None:
+        if not self.change.is_subdomain(self.zone):
+            raise ValueError("{self.change} is not a subdomain of {self.zone}")
         self.validate_rrsets(self.from_rrsets)
         self.validate_rrsets(self.to_rrsets)
 
@@ -96,18 +100,25 @@ class ChangeRequest:
     @classmethod
     def from_yaml(cls, yaml_str: str):
         data = validate_with_humanized_errors(yaml.safe_load(yaml_str), CR_SCHEMA)
+        zone = data["zone"]
         change = data["change"]
         ttl = data.get("ttl", DEFAULT_TTL)
         from_rrsets = data["from"]
         to_rrsets = data["to"]
-        res = cls(change=change, ttl=ttl, from_rrsets=from_rrsets, to_rrsets=to_rrsets)
+        res = cls(
+            zone=zone,
+            change=change,
+            ttl=ttl,
+            from_rrsets=from_rrsets,
+            to_rrsets=to_rrsets,
+        )
         res.validate()
         return res
 
     def to_message(self) -> dns.update.UpdateMessage:
         """Return CR as DDNS message"""
 
-        res = dns.update.UpdateMessage(self.change)
+        res = dns.update.UpdateMessage(self.zone)
 
         for rrset in self.from_rrsets:
             res.present(rrset.name, rrset)
@@ -125,7 +136,7 @@ class ChangeRequest:
         """Return CR as nsupdate instructions"""
 
         res = []
-        res.append(f"zone {self.change}")
+        res.append(f"zone {self.zone}")
 
         for rrset in self.from_rrsets:
             for rdata in rrset:
