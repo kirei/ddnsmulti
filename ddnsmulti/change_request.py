@@ -38,15 +38,19 @@ ALLOWED_RDATATYPES = {
 }
 
 
-class InvalidChangeError(ValueError):
+class ChangeRequestError(ValueError):
     pass
 
 
-class SuperflousGlueError(ValueError):
+class InvalidChangeError(ChangeRequestError):
     pass
 
 
-class MissingGlueError(ValueError):
+class SuperflousGlueError(ChangeRequestError):
+    pass
+
+
+class MissingGlueError(ChangeRequestError):
     pass
 
 

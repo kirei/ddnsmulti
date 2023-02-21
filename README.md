@@ -1,6 +1,6 @@
-# DNS Updater Utility
+# DDNS Multi Updater
 
-`ddnsmulti` will read dynamic update requests, formatted as YAML, from a queue directory and ensure that all updates are sent to a set of authoritative nameservers. It will keep track of what requests has been accepted to what nameserver and retransit any pending updates.
+`ddnsmulti` will read dynamic update requests, formatted as YAML, from a queue directory and ensure that all updates are sent to a set of authoritative nameservers. It will optionally keep track of what requests has been accepted to what nameserver and retransit any pending updates.
 
 In addition to the update requests, `ddnsmulti` will optionally keep an JSON-based index in the queue directory. The index contains all pending transactions and their status.
 

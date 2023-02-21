@@ -7,7 +7,9 @@ from dataclasses import dataclass, field
 from pathlib import Path, PosixPath
 from typing import Dict, Optional, Union
 
-from ddnsmulti.change_request import ChangeRequest
+from ddnsmulti.change_request import ChangeRequest, ChangeRequestError
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -27,7 +29,11 @@ class ChangeRequestQueueEntry:
             raw_contents = input_file.read()
             fingerprint = hashlib.sha256(raw_contents).hexdigest()
             yaml_str = raw_contents.decode()
-        cr = ChangeRequest.from_yaml(yaml_str)
+        try:
+            cr = ChangeRequest.from_yaml(yaml_str)
+        except ChangeRequestError as exc:
+            logger.error("Error parsing %s: %s", filename, str(exc))
+            return None
         return cls(
             cr=cr,
             yaml_str=yaml_str,
@@ -124,11 +130,11 @@ class ChangeRequestQueue:
         for f in self.get_files():
             if f not in self.files:
                 if self.index_filename:
-                    logging.info("Adding %s to index", f)
+                    logger.debug("Adding %s to index", f)
                 else:
-                    logging.info("Reading %s", f)
+                    logger.debug("Reading %s", f)
                 self.queue.append(
                     ChangeRequestQueueEntry.from_file(self.queue_directory / f)
                 )
             else:
-                logging.debug("Skip %s, already in index", f)
+                logger.debug("Skip %s, already in index", f)
