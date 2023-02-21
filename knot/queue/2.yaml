@@ -1,3 +1,5 @@
+# redelegation with glue in other zone
+
 zone: example.com
 change: b.example.com
 

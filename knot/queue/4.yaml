@@ -1,0 +1,21 @@
+# non-acceptable change, prerequsite not met
+
+zone: example.com
+change: d.example.com
+
+ttl: 86400
+
+from:
+  - "d.example.com. NS ns1.d.example.com"
+  - "d.example.com. NS ns2.d.example.com"
+  - "d.example.com. NS ns2.b.example.com"
+  - "ns1.d.example.com A 10.0.0.1"
+  - "ns2.d.example.com A 10.0.0.2"
+
+to:
+  - "d.example.com. NS ns1.d.example.com"
+  - "d.example.com. NS ns4.d.example.com"
+  - "d.example.com. NS ns2.b.example.com"
+  - "ns1.d.example.com A 10.0.0.1"
+  - "ns4.d.example.com A 10.0.0.2"
+  - "ns4.d.example.com AAAA 2001:67c:394:15::4"

@@ -1,0 +1,14 @@
+# new delegation
+
+zone: example.com
+change: c.example.com
+
+ttl: 86400
+
+from: []
+
+to:
+  - "c.example.com. NS ns1.c.example.com."
+  - "c.example.com. NS ns2.c.example.com."
+  - "ns1.c.example.com A 10.0.0.1"
+  - "ns2.c.example.com A 10.0.0.2"

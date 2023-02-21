@@ -7,5 +7,12 @@ up:
 down:
 	docker compose down
 
+test:
+	ddnsmulti --config ddnsmulti.yaml show-queue
+	dig @127.0.0.1 -p 5300 example.com axfr
+	ddnsmulti --config ddnsmulti.yaml send
+	dig @127.0.0.1 -p 5300 example.com axfr
+	
+
 axfr:
 	dig @127.0.0.1 -p 5300 example.com axfr

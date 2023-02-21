@@ -1,19 +1,18 @@
+# change of existing delegation
+
 zone: example.com
 change: a.example.com
 
 ttl: 86400
 
 from:
-  - "a.example.com. NS ns1.a.example.com"
-  - "a.example.com. NS ns2.a.example.com"
-  - "a.example.com. NS ns2.b.example.com"
-  - "ns1.a.example.com A 10.0.0.1"
-  - "ns2.a.example.com A 10.0.0.2"
+  - "a.example.com NS ns1.a.example.com"
+  - "a.example.com NS ns2.a.example.com"
+  - "ns1.a.example.com A 10.0.0.11"
+  - "ns2.a.example.com A 10.0.0.12"
 
 to:
-  - "a.example.com. NS ns1.a.example.com"
-  - "a.example.com. NS ns4.a.example.com"
-  - "a.example.com. NS ns2.b.example.com"
-  - "ns1.a.example.com A 10.0.0.1"
-  - "ns4.a.example.com A 10.0.0.2"
-  - "ns4.a.example.com AAAA 2001:67c:394:15::4"
+  - "a.example.com NS ns3.a.example.com"
+  - "a.example.com NS ns4.a.example.com"
+  - "ns3.a.example.com A 10.0.0.13"
+  - "ns4.a.example.com A 10.0.0.14"

@@ -19,5 +19,13 @@ dns1	A	192.0.2.1
 dns2	A	192.0.2.2
 	AAAA	2001:DB8::2
 
-b	NS	ns1.other.example.net.
-b	NS	ns2.other.example.net.
+
+$ORIGIN a.example.com.
+@	NS	ns1
+@	NS	ns2
+ns1	A	10.0.0.11
+ns2	A	10.0.0.12
+
+$ORIGIN b.example.com.
+@	NS	ns1.other.example.net.
+@	NS	ns2.other.example.net.
